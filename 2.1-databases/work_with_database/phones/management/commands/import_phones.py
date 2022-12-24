@@ -16,7 +16,8 @@ class Command(BaseCommand):
             tel = Phone(name=phone['name'],
                         price=phone['price'],
                         image=phone['image'],
-                        release_date=['release_date'],
+                        release_date=phone['release_date'],
                         lte_exists=phone['lte_exists'],
-                        slug=phone['name'].replace(' ', '-')
+                        slug=phone['name'].replace(' ', '-').lower()
                         )
+            tel.save()
