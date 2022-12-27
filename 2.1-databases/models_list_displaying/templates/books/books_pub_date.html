@@ -18,11 +18,11 @@
         </div>
         <div>
             {% if page.has_previous %}
-                <a class="button button-primary" href="/books/{{ books.0.pub_date }}">{{ books.0.pub_date }}</a>
+                <a class="button button-primary" href="/books/{{ previous_page }}">< {{ previous_page }}</a>
             {% endif %}
             <a class="button disabled" href="">{{ page.number }}</a>
             {% if page.has_next %}
-                <a class="button button-primary" href="?page={{ page.next_page_number }}">⟶</a>
+                <a class="button button-primary" href="/books/{{ next_page }}">{{ next_page }} ></a>
             {% endif %}
         </div>
     </div>

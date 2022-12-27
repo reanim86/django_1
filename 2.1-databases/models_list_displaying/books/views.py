@@ -23,11 +23,20 @@ def books_pub_date(request, pub_date):
         if str(book.pub_date) == pub_date:
             break
         n += 1
+    if n < 2:
+        previous_page = None
+        next_page = str(books[n].pub_date)
+    elif n >= len(books):
+        previous_page = str(books[n - 2].pub_date)
+        next_page = None
+    else:
+        previous_page = str(books[n-2].pub_date)
+        next_page = str(books[n].pub_date)
     page = paginator.get_page(n)
     template = 'books/books_pub_date.html'
-    context = {'books': books,
-               'page': page,
-               'p': 0}
+    context = {'page': page,
+               'previous_page': previous_page,
+               'next_page': next_page}
     return render(request, template, context)
 
 
