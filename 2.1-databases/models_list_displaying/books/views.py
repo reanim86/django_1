@@ -25,8 +25,9 @@ def books_pub_date(request, pub_date):
         n += 1
     page = paginator.get_page(n)
     template = 'books/books_pub_date.html'
-    context = {'books': page,
-               'page': page}
+    context = {'books': books,
+               'page': page,
+               'p': 0}
     return render(request, template, context)
 
 
