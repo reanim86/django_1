@@ -7,14 +7,21 @@ from .models import Article, Tag, Scope
 
 class ScopeInlineFormset(BaseInlineFormSet):
     def clean(self):
+        i = 0
         for form in self.forms:
+            if form.cleaned_data:
+                if form.cleaned_data['is_main']:
+                    i += 1
+        if (i == 0) or (i > 1):
+            raise ValidationError('Основным может быть только один раздел')
+
             # В form.cleaned_data будет словарь с данными
             # каждой отдельной формы, которые вы можете проверить
-            form.cleaned_data
+            # form.cleaned_data
             # вызовом исключения ValidationError можно указать админке о наличие ошибки
             # таким образом объект не будет сохранен,
             # а пользователю выведется соответствующее сообщение об ошибке
-            raise ValidationError('Основным может быть только один раздел')
+            # raise ValidationError('Основным может быть только один раздел')
         return super().clean()  # вызываем базовый код переопределяемого метода
 class ScopeInline(admin.TabularInline):
     model = Scope

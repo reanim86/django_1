@@ -20,6 +20,9 @@ class Tag(models.Model):
     name = models.CharField(max_length=30, verbose_name='Имя')
     articles = models.ManyToManyField(Article, related_name='tags', through='Scope')
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
