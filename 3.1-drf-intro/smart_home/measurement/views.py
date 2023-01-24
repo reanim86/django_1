@@ -24,3 +24,14 @@ class SensorAPI(ListAPIView):
 class MeasurementAPI(ListAPIView):
     queryset = Measurement.objects.all()
     serializer_class = MeasurementSerializer
+
+    def post(self, request):
+        Sensor.objects.filter(id=request.data['sensor'])
+        measurement = Measurement(
+            sensor=Sensor.objects.filter(id=request.data['sensor']),
+            temperature=request.data['temperature']
+        )
+        # measurement = Measurement(sensor=7, temperature=22)
+        measurement.save()
+        # print(type(request.data['sensor']))
+        return Response('Record add')
