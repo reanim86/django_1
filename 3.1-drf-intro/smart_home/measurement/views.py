@@ -20,7 +20,7 @@ class MeasurementAPI(ListAPIView):
     serializer_class = MeasurementSerializer
 
     def post(self, request):
-        measurement = Measurement(sensor_id = request.data['sensor'], temperature=request.data['temperature'])
+        measurement = Measurement(sensor_id=request.data['sensor'], temperature=request.data['temperature'])
         measurement.save()
         return Response('Record add')
 
