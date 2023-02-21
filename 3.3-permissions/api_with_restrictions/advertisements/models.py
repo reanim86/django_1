@@ -28,3 +28,9 @@ class Advertisement(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+    favourites = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='favourites',
+        null=True,
+        blank=True
+    )

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 
 from advertisements.models import Advertisement
 
@@ -40,8 +41,9 @@ class AdvertisementSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
-        ads = Advertisement.objects.filter(creator=data['creator']['id'], status='OPEN')
-        if ads >= 2:
-            raise ValueError('У пользователя больше 10 открытых объявлений')
+        ads = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN').count()
+        if (ads >= 10) and (self.context["request"].method == 'POST'):
+            raise PermissionDenied('У пользователя больше 10 открытых объявлений')
+        # print(self.context["request"].method)
 
         return data

@@ -10,12 +10,15 @@ from advertisements.serializers import AdvertisementSerializer
 
 
 class AdvertisementViewSet(ModelViewSet):
+    """Описываем viewset для работы с моделью Advertisement"""
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     permission_classes = [IsOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    # filterset_fields = ['creator']
     filterset_class = AdvertisementFilter
+
+    # def perform_create(self, serializer):
+    #     serializer.save(creator=self.request.user)
 
 
     def get_permissions(self):
