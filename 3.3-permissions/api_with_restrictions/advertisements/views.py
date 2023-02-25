@@ -33,5 +33,6 @@ class AdvertisementViewSet(ModelViewSet):
 
     @action(methods=['patch'], detail=True)
     def favourites(self, request, pk=None):
+        """Добавление объявления в избранное"""
         Advertisement.objects.filter(pk=pk).update(favourites=request.user)
         return Response('Запись добавлены в избранное')
