@@ -1,6 +1,8 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from advertisements.filters import AdvertisementFilter
@@ -28,3 +30,8 @@ class AdvertisementViewSet(ModelViewSet):
         if self.action in ["update", "partial_update", "destroy"]:
             return [IsOwnerOrReadOnly()]
         return []
+
+    @action(methods=['patch'], detail=True)
+    def favourites(self, request, pk=None):
+        Advertisement.objects.filter(pk=pk).update(favourites=request.user)
+        return Response('Запись добавлены в избранное')
