@@ -7,6 +7,8 @@ class IsOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method == 'GET':
             return True
-        if request.user in User.objects.filter(is_superuser=True):
+        # if request.user in User.objects.filter(is_superuser=True):
+        #     return True
+        if request.user.is_staff:
             return True
         return request.user == obj.creator

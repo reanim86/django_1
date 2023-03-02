@@ -38,12 +38,12 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         validated_data["creator"] = self.context["request"].user
         return super().create(validated_data)
 
+
     def validate(self, data):
         """Метод для валидации. Вызывается при создании и обновлении."""
 
         ads = Advertisement.objects.filter(creator=self.context["request"].user, status='OPEN').count()
-        if (ads >= 10) and (self.context["request"].method == 'POST'):
+        if (ads >= 10) and ((self.context["request"].method == 'POST') or ((self.context["request"].method == 'PATCH') and self.context["request"].data['status'] == 'OPEN')):
             raise PermissionDenied('У пользователя больше 10 открытых объявлений')
-        # print(self.context["request"].method)
 
         return data
