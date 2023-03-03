@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
@@ -34,5 +36,7 @@ class AdvertisementViewSet(ModelViewSet):
     @action(methods=['patch'], detail=True)
     def favourites(self, request, pk=None):
         """Добавление объявления в избранное"""
-        Advertisement.objects.filter(pk=pk).add(favourites=request.user)
-        return Response('Запись добавлены в избранное')
+        user = User.objects.get(pk=pk)
+        Advertisement.objects.add(favourites=user)
+        # Advertisement.objects.filter(pk=pk).add(favourites=request.user)
+        return Response('Запись добавлена в избранное')
