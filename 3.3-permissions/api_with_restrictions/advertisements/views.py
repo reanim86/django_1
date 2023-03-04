@@ -21,8 +21,6 @@ class AdvertisementViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = AdvertisementFilter
 
-    # def perform_create(self, serializer):
-    #     serializer.save(creator=self.request.user)
 
 
     def get_permissions(self):
@@ -36,7 +34,7 @@ class AdvertisementViewSet(ModelViewSet):
     @action(methods=['patch'], detail=True)
     def favourites(self, request, pk=None):
         """Добавление объявления в избранное"""
-        user = User.objects.get(pk=pk)
-        Advertisement.objects.add(favourites=user)
-        # Advertisement.objects.filter(pk=pk).add(favourites=request.user)
+        user = User.objects.get(username=self.request.user)
+        advertisement = Advertisement(pk)
+        advertisement.favourites.add(user.id)
         return Response('Запись добавлена в избранное')
